@@ -1,0 +1,29 @@
+// Apply the java plugin to add support for Java
+apply plugin: 'java'
+
+sourceCompatibility = 1.8
+
+repositories {
+    jcenter()
+}
+
+test {
+    useTestNG()
+    enableAssertions = true
+    testLogging {
+        showExceptions = true
+        showStandardStreams = true
+        exceptionFormat = 'full'
+    }
+    // Always re-run tests even if they are up to date
+    outputs.upToDateWhen { false }
+}
+
+dependencies {
+    compile 'ch.qos.logback:logback-classic:1.1.3'
+    compile 'com.fasterxml.jackson.core:jackson-databind:2.7.0'
+    compile 'com.fasterxml.jackson.core:jackson-annotations:2.7.0'
+
+    testCompile 'org.testng:testng:6.1.1'
+    testCompile 'org.assertj:assertj-core:3.3.0'
+}

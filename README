@@ -1,0 +1,39 @@
+This project is a fake PersonLookup library with unit tests. PersonLookup is an
+asynchronous API. When you call its get() method you don't get a Person, you get
+a CompletableFuture<Person>. This is basically a promise that in the future an
+instance of Person will be available (or an exception) but the Person instance
+is not available yet, presumably because the query hasn't reached the database
+or the database is busy reading the data off the disk, etc. Once the requested
+Person instance is available the CompletableFuture<Person> completes with a
+Person instance. See the Java8 CompletableFuture API or tutorials for details.
+
+PersonLookup is built on top of KeyValueDatabase, a fictional database that maps
+string keys to string values. It also has an asynchronous API. However, unlike
+PersonLookup, KeyValueDatabase uses callbacks to notify the caller when the data
+is available. Thus PersonLookup must convert the callback API into a
+CompletableFuture API.
+
+This project includes a few unit tests that demonstrate the general
+functionality of the library. One of which fails. In fact, that test doesn't
+just fail, it hangs forever. Your task is to figure out why the test hangs and
+fix it. Feel free to add additional logging or otherwise modify the code, and
+don't worry about code formatting, style, etc. The task here is just to see if
+you can find and fix the bug.
+
+To run the tests you will need Java 8 installed. The build system used is Gradle
+and you can run it by running "./gradlew test" from the project directory.
+"gradlew" is the gradle wrapper script and it will download the gradle
+executable on its first run if you don't already have it installed.
+
+Gradle has excellent online documentation, but you probably need to know only a
+few things to get started:
+
+* To compile all the code and run all the tests, just run "./gradlew test" from
+  the root project directory.
+* To run just the failing test run
+  "./gradlew test --tests='*PersonLookupTest.testInvalidDataResultsInException'"
+* To run the test in a debugger, append "--debug-jvm" to either command line
+  above. You will then see "Listening for transport dt_socket at address: 5005".
+  When you see this you can attach any standard Java debugger (e.g. Eclipse,
+  IntelliJ) to port 5005 and debug. The tests will not run until a debugger is
+  attached.
